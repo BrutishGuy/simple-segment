@@ -29,11 +29,11 @@ requires [matplotlib][mpl] to display the plots. The script may be run as follow
 Where --maxerror is the maximum error/tolerance E allowed for the algorithms (default is 4.0), --numpoints N is the number of datapoints 
 (default is all datapoints) to use and is useful for large datasets, and datafile is mandatory to specify the location of the file
 using your OS's file directory navigation syntax. Finally, the datafile format has 2 columns: Column one is integer time values, 
-and Column 2 is the float value of the time-series at a specified time.
+and Column 2 is the float value of the time-series at a specified time. It must be in .csv style format (but any extension) and have commas between column values
 
 A concrete example (on Linux):
 	
-	python trend_line.py /data/hpc2.dat --maxerror=5.0 --numpoints=1000
+	python trend_line.py /example_data/ecg.dat --maxerror=5.0 --numpoints=100
 
 The example uses ECG data I found on an [ECG data site][ecg].
 
