@@ -15,23 +15,25 @@ def slidingwindowsegment(sequence, create_segment, compute_error, max_error, seq
     """
     if not seq_range:
         seq_range = (0,len(sequence)-1)
-
     start = seq_range[0]
-    end = start
-    result_segment = create_segment(sequence,(seq_range[0],seq_range[1]))
-    while end < seq_range[1]:
-        end += 1
-        test_segment = create_segment(sequence,(start,end))
-        error = compute_error(sequence,test_segment)
-        if error <= max_error:
-            result_segment = test_segment
-        else:
-            break
-
-    if end == seq_range[1]:
-        return [result_segment]
-    else:
-        return [result_segment] + slidingwindowsegment(sequence, create_segment, compute_error, max_error, (end-1,seq_range[1]))
+    end = start       
+    results = []
+    while end != seq_range[1]:
+        start = seq_range[0]
+        end = start
+        result_segment = create_segment(sequence,(seq_range[0],seq_range[1]))
+        while end < seq_range[1]:
+            end += 1
+            test_segment = create_segment(sequence,(start,end))
+            error = compute_error(sequence,test_segment)
+            if error <= max_error:
+                result_segment = test_segment
+            else:
+                break
+        seq_range = (end - 1, seq_range[1])
+        results.append(result_segment)
+    return results
+    #return [result_segment] + slidingwindowsegment(sequence, create_segment, compute_error, max_error, (end-1, seq_range[1]))
         
 def bottomupsegment(sequence, create_segment, compute_error, max_error):
     """
