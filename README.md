@@ -21,8 +21,19 @@ The segmenting algorithms use [NumPy's][numpy] least squares fitting routine, so
 Example
 -------
 
-You can run the code to see example output by running the example.py script. The script
-requires [matplotlib][mpl] to display the plots.
+You can run the code to see example output by running the trend_line.py script. The script
+requires [matplotlib][mpl] to display the plots. The script may be run as follows:
+
+	python trend_line.py [-h] [--maxerror E] [--numpoints N] datafile
+	
+Where --maxerror is the maximum error/tolerance E allowed for the algorithms (default is 4.0), --numpoints N is the number of datapoints 
+(default is all datapoints) to use and is useful for large datasets, and datafile is mandatory to specify the location of the file
+using your OS's file directory navigation syntax. Finally, the datafile format has 2 columns: Column one is integer time values, 
+and Column 2 is the float value of the time-series at a specified time.
+
+A concrete example (on Linux):
+	
+	python trend_line.py /data/hpc2.dat --maxerror=5.0 --numpoints=1000
 
 The example uses ECG data I found on an [ECG data site][ecg].
 
