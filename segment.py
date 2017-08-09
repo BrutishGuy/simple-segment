@@ -75,7 +75,7 @@ def topdownsegment(sequence, create_segment, compute_error, max_error, seq_range
     """
     Return a list of line segments that approximate the sequence.
     
-    The list is computed using the bottom-up technique.
+    The list is computed using the top-down technique.
     
     Parameters
     ----------
