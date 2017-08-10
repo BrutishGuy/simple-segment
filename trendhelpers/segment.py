@@ -1,3 +1,4 @@
+import copy
 
 def slidingwindowsegment(sequence, create_segment, compute_error, max_error, seq_range=None):
     """
@@ -113,3 +114,53 @@ def topdownsegment(sequence, create_segment, compute_error, max_error, seq_range
         rightsegs = topdownsegment(sequence, create_segment, compute_error, max_error, (bestidx,seq_range[1]))
     
     return leftsegs + rightsegs
+
+def topdownsegment_iterative(sequence, create_segment, compute_error, max_error):
+    seq_range = (0,len(sequence)-1)
+    breakpoints = []
+    line_segments = []
+    done = []
+    
+    breakpoints = [seq_range[0], seq_range[1]]
+    copy_breakpoints = copy.deepcopy(breakpoints) 
+    
+    while len(done) + 1 != len(breakpoints): 
+        
+        for i in range(len(breakpoints) - 1):
+            
+            if (breakpoints[i], breakpoints[i + 1]) in done:
+                continue
+            
+            bestlefterror,bestleftsegment = float('inf'), None
+            bestrighterror,bestrightsegment = float('inf'), None
+            bestidx = None   
+            start = breakpoints[i]
+            end = breakpoints[i + 1]
+            
+            for idx in range(start + 1, end):
+                
+                segment_left = create_segment(sequence,(start,idx))
+                error_left = compute_error(sequence,segment_left)
+                segment_right = create_segment(sequence,(idx,end))
+                error_right = compute_error(sequence, segment_right)
+                
+                if error_left + error_right < bestlefterror + bestrighterror:
+                    bestlefterror, bestrighterror = error_left, error_right
+                    bestleftsegment, bestrightsegment = segment_left, segment_right
+                    bestidx = idx  
+            
+            if bestlefterror <= max_error:
+                done.append((start,bestidx))
+            if bestrighterror <= max_error:
+                done.append((bestidx,end))
+                
+            copy_breakpoints = copy_breakpoints[:copy_breakpoints.index(breakpoints[i + 1])] + [bestidx] + copy_breakpoints[copy_breakpoints.index(breakpoints[i + 1]):]
+        
+        breakpoints = copy.deepcopy(copy_breakpoints)
+    
+    line_segments = []
+    for i in range(len(breakpoints) - 1):
+        segment_piece = create_segment(sequence,(breakpoints[i], breakpoints[i + 1]))
+        line_segments.append(segment_piece)
+    
+    return line_segments

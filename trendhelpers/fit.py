@@ -1,4 +1,4 @@
-from wrappers import leastsquareslinefit
+from trendhelpers.wrappers import leastsquareslinefit
 
 # compute_error functions
 
